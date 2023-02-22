@@ -36,15 +36,17 @@ function App() {
   }
 
   function closeAllPopups() {
+    document.removeEventListener('keydown', closeByEsc);
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsConfirmPopupOpen(false);
     setSelectedCard(null);
-    document.removeEventListener('keydown', closeByEsc);
   }
 
   function closeByEsc(e) {
     if(e.key == 'Escape') {
+      console.log('pressed');
       closeAllPopups();
     }
   }
