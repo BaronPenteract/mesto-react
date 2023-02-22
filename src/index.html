@@ -4,27 +4,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="<%=require('./images/icons/favicon.png')%>">
+  <link rel="shortcut icon" href="images/icons/favicon.png">
   <title>Mesto</title>
 </head>
-<body>
-
-  <template id="card-template">
-    <li>
-      <article>
-        <div className="cards__item">
-          <button className="cards__delete" type="button" title="Удалить"></button>
-          <img className="cards__image" src="/" alt="Шаблонное описание" />
-          <div className="cards__content">
-            <h2 className="cards__title">Название шаблона</h2>
-            <div className="cards__likes-container">
-              <button className="cards__like" type="button" title="Поставить лайк"></button>
-              <span className="cards__like-amount">4</span>
-            </div>
-          </div>
-        </div>
-      </article>
-    </li>
-  </template>
+<body id="root">
 </body>
 </html>

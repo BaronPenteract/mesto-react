@@ -74,7 +74,7 @@ export default function Main(props) {
           className="profile__btn-add" 
           type="button" 
           title="Добавить новое место"
-          onClick={props.onAddPlase}
+          onClick={props.onAddPlace}
           >
         </button>
       </section>

@@ -10,7 +10,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  /* const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false); */
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = React.useState(null);
 
@@ -30,10 +30,10 @@ function App() {
     document.addEventListener('keydown', closeByEsc);
   }
   //-------------------------------------------------------------------CONFIRM (заглушка)
-  /* function handleConfirmClick() {
+  function handleConfirmClick() {
     setIsConfirmPopupOpen(!isConfirmPopupOpen);
     document.addEventListener('keydown', closeByEsc);
-  } */
+  }
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -65,7 +65,7 @@ function App() {
       <Header />
       <Main 
         onEditProfile={handleEditProfileClick}
-        onAddPlase={handleAddPlaceClick}
+        onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
         cardClick={handleCardClick}
       />
@@ -153,8 +153,8 @@ function App() {
           </>
         }
       />
-      {/* ------------------------------------------------------------------------CONFIRM FORM заглушка*/}
-      {/* <PopupWithForm
+      {/* ------------------------------------------------------------------------CONFIRM FORM */}
+      <PopupWithForm
         name="confirm"
         title="Вы уверены?"
         isOpen={isConfirmPopupOpen}
@@ -165,7 +165,7 @@ function App() {
             <button className="form__btn form__btn_type_submit" type="submit">Да</button>
           </>
         }
-      /> */}
+      />
       {/* ---------------------------------------------------------------------IMAGE POPUP */}
       {selectedCard && <PopupWithImage 
                           card={selectedCard}
