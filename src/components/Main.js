@@ -1,7 +1,7 @@
 import React from 'react';
-import Api from '../../utils/Api';
-import avatar from '../../images/avatar.png';
-import Card from '../Card/Card';
+import Api from '../utils/Api';
+import avatar from '../images/avatar.png';
+import Card from './Card';
 
 export default function Main(props) {
   const api = new Api({
