@@ -1,4 +1,4 @@
-export default function PopupWithImage(props) {
+export default function ImagePopup(props) {
 
   return (
     <div 
