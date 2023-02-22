@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer'
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
-import PopupWithImage from '../PopupWithImage/PopupWithImage';
+import ImagePopup from '../ImagePopup/ImagePopup';
 
 function App() {
 
@@ -169,7 +169,7 @@ function App() {
         }
       />
       {/* ---------------------------------------------------------------------IMAGE POPUP */}
-      {selectedCard && <PopupWithImage 
+      {selectedCard && <ImagePopup 
                           card={selectedCard}
                           onClose={closeAllPopups}
                           closeByOverlay={closeByOverlay}
