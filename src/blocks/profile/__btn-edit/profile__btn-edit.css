@@ -8,6 +8,7 @@
   background-position: center;
   background-repeat: no-repeat;
   border: 1px solid #fff;
+  outline: none;
   cursor: pointer;
   transition: opacity .2s linear;
 }
