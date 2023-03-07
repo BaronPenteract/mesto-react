@@ -83,11 +83,14 @@ function App() {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-      setCards((state) => {
-        return state.map((c) => (c._id === card._id ? newCard : c));
-      });
-    });
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) => {
+          return state.map((c) => (c._id === card._id ? newCard : c));
+        });
+      })
+      .catch(api.handleError);
   }
 
   function handleCardDelete(card) {
@@ -101,22 +104,22 @@ function App() {
   }
 
   function confirmSubmitAction(card, submitButton, awaitText, originalText) {
-    popupLoading(true, submitButton, awaitText, originalText);
+    renderLoading(true, submitButton, awaitText, originalText);
     api
       .deleteCard(card._id)
-      .then(() =>
+      .then(() => {
         setCards((state) => {
           return state.filter((c) => c._id !== card._id);
-        }),
-      )
+        });
+        closeAllPopups();
+      })
       .catch(api.handleError)
       .finally(() => {
-        closeAllPopups();
-        popupLoading(false, submitButton, awaitText, originalText);
+        renderLoading(false, submitButton, awaitText, originalText);
       });
   }
 
-  function popupLoading(isLoading, buttonRef, awaitText, originalText) {
+  function renderLoading(isLoading, buttonRef, awaitText, originalText) {
     isLoading
       ? (buttonRef.current.textContent = awaitText)
       : (buttonRef.current.textContent = originalText);
@@ -124,44 +127,44 @@ function App() {
 
   //------------------------------------------------------------------------USER UPDATE HANDLERS
   function handleUpdateUser(userData, submitButton, awaitText, originalText) {
-    popupLoading(true, submitButton, awaitText, originalText);
+    renderLoading(true, submitButton, awaitText, originalText);
     api
       .setUser(userData)
       .then((user) => {
         setCurrentUser({ ...currentUser, ...user });
+        closeAllPopups();
       })
       .catch(api.handleError)
       .finally(() => {
-        closeAllPopups();
-        popupLoading(false, submitButton, awaitText, originalText);
+        renderLoading(false, submitButton, awaitText, originalText);
       });
   }
 
   function handleUpdateAvatar(avatar, submitButton, awaitText, originalText) {
-    popupLoading(true, submitButton, awaitText, originalText);
+    renderLoading(true, submitButton, awaitText, originalText);
     api
       .setAvatar(avatar)
       .then((user) => {
         setCurrentUser({ ...currentUser, ...user });
+        closeAllPopups();
       })
       .catch(api.handleError)
       .finally(() => {
-        closeAllPopups();
-        popupLoading(false, submitButton, awaitText, originalText);
+        renderLoading(false, submitButton, awaitText, originalText);
       });
   }
 
   function handleAddPlace(card, submitButton, awaitText, originalText) {
-    popupLoading(true, submitButton, awaitText, originalText);
+    renderLoading(true, submitButton, awaitText, originalText);
     api
       .addCard(card)
       .then((cardData) => {
         setCards([cardData, ...cards]);
+        closeAllPopups();
       })
       .catch(api.handleError)
       .finally(() => {
-        closeAllPopups();
-        popupLoading(false, submitButton, awaitText, originalText);
+        renderLoading(false, submitButton, awaitText, originalText);
       });
   }
 

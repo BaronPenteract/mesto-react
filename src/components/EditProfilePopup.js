@@ -2,34 +2,26 @@ import React from 'react';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const currentUser = React.useContext(CurrentUserContext);
 
-  const [name, setName] = React.useState('');
-  const [about, setAbout] = React.useState('');
+  const { values, handleChange, errors, isValid, setValues, resetForm, setIsValid } =
+    useFormAndValidation();
 
   const submitButton = React.useRef();
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setAbout(currentUser.about);
-  }, [currentUser]);
+    resetForm();
+    setValues(currentUser);
+    setIsValid(true);
+  }, [currentUser, isOpen]);
 
   function handleSubmit(e) {
-    // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
 
-    // Передаём значения управляемых компонентов во внешний обработчик
-    onUpdateUser(
-      {
-        name,
-        about,
-      },
-      submitButton,
-      'Сохранение...',
-      submitButton.current.textContent,
-    );
+    onUpdateUser(values, submitButton, 'Сохранение...', submitButton.current.textContent);
   }
 
   return (
@@ -45,39 +37,44 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           <label className="form__label">
             <input
               id="edit-name-input"
-              className="form__input form__input_edit_name"
+              className={`form__input ${errors.name ? 'form__input_type_error' : ''}`}
               type="text"
               name="name"
               placeholder="Имя"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
+              value={values.name || ''}
+              onChange={handleChange}
               required
               minLength="2"
               maxLength="40"
             />
-            <span className="edit-name-input-error form__error"></span>
+            <span className={`form__error ${errors.name ? 'form__error_active' : ''}`}>
+              {errors.name || ''}
+            </span>
           </label>
           <label className="form__label">
             <input
               id="edit-job-input"
-              className="form__input form__input_edit_job"
+              className={`form__input ${errors.about ? 'form__input_type_error' : ''}`}
               type="text"
               name="about"
               placeholder="О себе"
-              value={about}
-              onChange={(e) => {
-                setAbout(e.target.value);
-              }}
+              value={values.about || ''}
+              onChange={handleChange}
               required
               minLength="2"
               maxLength="200"
             />
-            <span className="edit-job-input-error form__error"></span>
+            <span className={`form__error ${errors.about ? 'form__error_active' : ''}`}>
+              {errors.about || ''}
+            </span>
           </label>
         </fieldset>
-        <button ref={submitButton} className="form__btn form__btn_type_submit" type="submit">
+        <button
+          ref={submitButton}
+          className={`form__btn form__btn_type_submit ${!isValid ? 'form__btn_disabled' : ''}`}
+          disabled={!isValid}
+          type="submit"
+        >
           Сохранить
         </button>
       </>

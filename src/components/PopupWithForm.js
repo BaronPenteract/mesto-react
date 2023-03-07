@@ -1,8 +1,5 @@
 import React from 'react';
 
-import FormValidator from '../utils/FormValidator';
-import { validationConfig } from '../utils/validatorConfig';
-
 export default function PopupWithForm({ isOpen, name, title, onClose, onSubmit, children }) {
   isOpen
     ? document.addEventListener('keydown', closeByEsc)
@@ -10,17 +7,7 @@ export default function PopupWithForm({ isOpen, name, title, onClose, onSubmit, 
 
   const formRef = React.useRef(); //начальное значение?
 
-  const [formValidator, setFormValidator] = React.useState(null);
-
-  React.useEffect(() => {
-    setFormValidator(new FormValidator(validationConfig, formRef.current));
-  }, []);
-
-  formValidator?.enableValidation();
-
   function handleClose() {
-    formValidator?.resetValidation();
-    formRef.current.reset();
     onClose();
   }
 

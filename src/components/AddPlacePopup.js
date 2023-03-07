@@ -1,28 +1,24 @@
 import React from 'react';
+
 import PopupWithForm from './PopupWithForm';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [cardName, setCardName] = React.useState('');
-  const [cardLink, setCardLink] = React.useState('');
   const submitButton = React.useRef();
+
+  const { values, handleChange, errors, isValid, setValues, resetForm, setIsValid } =
+    useFormAndValidation();
+
+  React.useEffect(() => {
+    setValues({});
+    resetForm();
+    setIsValid(false);
+  }, [isOpen]);
 
   function handleAddPlaceSubmit(e) {
     e.preventDefault();
 
-    onAddPlace(
-      { name: cardName, link: cardLink },
-      submitButton,
-      'Создание...',
-      submitButton.current.textContent,
-    );
-    setCardName('');
-    setCardLink('');
-  }
-
-  function handleClose() {
-    setCardName('');
-    setCardLink('');
-    onClose();
+    onAddPlace(values, submitButton, 'Создание...', submitButton.current.textContent);
   }
 
   return (
@@ -30,7 +26,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       name="add-form"
       title="Новое место"
       isOpen={isOpen}
-      onClose={handleClose}
+      onClose={onClose}
       onSubmit={handleAddPlaceSubmit}
     >
       <>
@@ -38,33 +34,42 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           <label className="form__label">
             <input
               id="add-name-input"
-              className="form__input form__input_add_name"
+              className={`form__input ${errors.name ? 'form__input_type_error' : ''}`}
               type="text"
               name="name"
-              value={cardName}
-              onChange={(e) => setCardName(e.target.value)}
+              value={values.name || ''}
+              onChange={handleChange}
               placeholder="Название"
               required
               minLength="2"
               maxLength="30"
             />
-            <span className="add-name-input-error form__error"></span>
+            <span className={`form__error ${errors.name ? 'form__error_active' : ''}`}>
+              {errors.name || ''}
+            </span>
           </label>
           <label className="form__label">
             <input
               id="add-url-input"
-              className="form__input form__input_add_url"
+              className={`form__input ${errors.link ? 'form__input_type_error' : ''}`}
               type="url"
               name="link"
-              value={cardLink}
-              onChange={(e) => setCardLink(e.target.value)}
+              value={values.link || ''}
+              onChange={handleChange}
               placeholder="Ссылка на картинку"
               required
             />
-            <span className="add-url-input-error form__error"></span>
+            <span className={`form__error ${errors.link ? 'form__error_active' : ''}`}>
+              {errors.link || ''}
+            </span>
           </label>
         </fieldset>
-        <button ref={submitButton} className="form__btn form__btn_type_submit" type="submit">
+        <button
+          ref={submitButton}
+          className={`form__btn form__btn_type_submit ${!isValid ? 'form__btn_disabled' : ''}`}
+          disabled={!isValid}
+          type="submit"
+        >
           Создать
         </button>
       </>
