@@ -8,25 +8,23 @@ class Api {
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
-        authorization: this._token
-      }
-    })
-      .then( this._handleResponse )
+        authorization: this._token,
+      },
+    }).then(this._handleResponse);
   }
 
-  addCard({name, link}) {
-    return fetch(`${this._baseUrl}/cards`,{
+  addCard({ name, link }) {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
-        link
-      })
-    })
-    .then( this._handleResponse )
+        link,
+      }),
+    }).then(this._handleResponse);
   }
 
   deleteCard(cardId) {
@@ -35,7 +33,7 @@ class Api {
       headers: {
         authorization: this._token,
       },
-    })
+    });
   }
 
   likeCard(cardId) {
@@ -44,8 +42,7 @@ class Api {
       headers: {
         authorization: this._token,
       },
-    })
-    .then( this._handleResponse )
+    }).then(this._handleResponse);
   }
 
   unLikeCard(cardId) {
@@ -54,31 +51,38 @@ class Api {
       headers: {
         authorization: this._token,
       },
-    })
-    .then( this._handleResponse )
+    }).then(this._handleResponse);
+  }
+
+  changeLikeCardStatus(cardId, isLiked) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: isLiked ? 'DELETE' : 'PUT',
+      headers: {
+        authorization: this._token,
+      },
+    }).then(this._handleResponse);
   }
 
   getUser() {
     return fetch(`${this._baseUrl}/users/me `, {
-        headers: {
-          authorization: this._token
-        }
-      })
-      .then( this._handleResponse )
+      headers: {
+        authorization: this._token,
+      },
+    }).then(this._handleResponse);
   }
 
-  setUser({name, about}) {
-    return fetch(`${this._baseUrl}/users/me`,{
+  setUser({ name, about }) {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
-        about
-      })
-    })
+        about,
+      }),
+    }).then(this._handleResponse);
   }
 
   setAvatar(avatarData) {
@@ -88,13 +92,12 @@ class Api {
         authorization: this._token,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(avatarData)
-    })
-    .then( this._handleResponse )
+      body: JSON.stringify(avatarData),
+    }).then(this._handleResponse);
   }
 
-  handleError( err ) {
-    console.log(err)
+  handleError(err) {
+    console.log(err);
   }
 
   _handleResponse(result) {
@@ -104,13 +107,12 @@ class Api {
 
     return Promise.reject(`Ошибка: ${result.status}`);
   }
-
 }
 
 export default new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
   headers: {
     authorization: 'cb4b8bf9-d1cf-4125-b87a-d2721614cb5f',
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 });
